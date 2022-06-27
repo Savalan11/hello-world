@@ -1,13 +1,18 @@
 import React from 'react';
-import { View, Text} from 'react-native';
+import { View, Text, Button, TextInput, Stylesheet} from 'react-native';
 
 
-export default class Screen2 extends React.Component {
+export default class Chat extends React.Component {
   render() {
+    let name = this.props.route.params.name;
+    this.props.navigation.setOptions({ title: name });
     return (
       <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>Hello Screen2!</Text>
+        <Button
+        title="Go to Start"
+        onPress={() => this.props.navigation.navigate("Start")}
+      />
       </View>
-    )
+    );
   }
 }
