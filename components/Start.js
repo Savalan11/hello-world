@@ -45,7 +45,7 @@ export default class Start extends React.Component {
             <View style={styles.inputBox}>
               <TextInput
                 style={styles.input}
-                onChangeText={(name) => this.setState({ name })}
+                onChangeText={(text) => this.setState({ name: text })}
                 value={this.state.name}
                 placeholder="What is your name?"
               />
@@ -54,7 +54,7 @@ export default class Start extends React.Component {
             <View style={styles.colorBox}>
               <Text style={styles.chooseColor}>
                 {" "}
-                Pick your background color!{" "} 
+                Pick your background color!{" "}
               </Text>
             </View>
 
