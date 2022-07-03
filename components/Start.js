@@ -1,90 +1,96 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet, Pressable, ImageBackground, TouchableOpacity, TextInput,} from 'react-native';
+import React, { Component } from "react";
+import {
+  ImageBackground,
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TextInput,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 
-// Importing the default background image from the assets folder
-import BackgroundImage from "../assets/background-image.png";
-
-
-export default class Start extends React.Component {
+export default class Start extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      name: "",
-      bgColor: this.colors.pink,
-    };
+    this.state = { username: "", backgroundColor: "white" };
   }
 
-  // function to update the state with the new background color for Chat Screen chosen by the user
-  changeBgColor = (newColor) => {
-    this.setState({ bgColor: newColor });
-  };
-  // backgroud colors to choose
-  colors = {
-    black: "#090C08",
-    purple: "#474056",
-    grey: "#8A95A5",
-    green: "B9C6AE",
-    blue: "#1B70A0",
+  changeBackgroundColor = (newColor) => {
+    this.setState({ backgroundColor: newColor });
   };
 
   render() {
-    return (
-      // Components to create the color arrays, titles and the app's colors
-      <View style={styles.container}>
-        <ImageBackground
-          source={BackgroundImage}
-          resizeMode="cover"
-          style={styles.backgroundImage}
-        >
-          <View style={styles.titleBox}>
-            <Text style={styles.title}>Chat App</Text>
-          </View>
+    const backgroundImage = require("../assets/background-image.png");
+    const userIcon = require("../assets/icon.png");
 
-          <View style={styles.box1}>
-            <View style={styles.inputBox}>
+    //background color choices
+    const colors = {
+      color1: "#090C08",
+      color2: "#474056",
+      color3: "#8A95A5",
+      color4: "#B9C6AE",
+    };
+
+    return (
+      <View style={styles.container}>
+        <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
+          <View style={styles.titleBox}>
+            <Text style={styles.title}>ChatMe</Text>
+          </View>
+          <View style={styles.startBox}>
+            <View style={styles.textBox}>
+              <Image source={userIcon} style={styles.userIcon} />
               <TextInput
                 style={styles.input}
-                onChangeText={(text) => this.setState({ name: text })}
-                value={this.state.name}
-                placeholder="What is your name?"
+                onChangeText={(username) => this.setState({ username })}
+                value={this.state.username}
+                placeholder="Type your Name here:"
               />
             </View>
-
-            <View style={styles.colorBox}>
-              <Text style={styles.chooseColor}>
-                {" "}
-                Pick your background color!{" "}
-              </Text>
+            <View style={styles.themeBox}>
+              <Text style={styles.infoTextBox}>Choose Background Color</Text>
+              <View style={styles.colorPalette}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.changeBackgroundColor(colors.color1);
+                  }}
+                  style={styles.colorSelection}
+                >
+                  <View style={styles.Circle1Box}></View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.changeBackgroundColor(colors.color2);
+                  }}
+                  style={styles.colorSelection}
+                >
+                  <View style={styles.Circle2Box}></View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.changeBackgroundColor(colors.color3);
+                  }}
+                  style={styles.colorSelection}
+                >
+                  <View style={styles.Circle3Box}></View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.changeBackgroundColor(colors.color4);
+                  }}
+                  style={styles.colorSelection}
+                >
+                  <View style={styles.Circle4Box}></View>
+                </TouchableOpacity>
+              </View>
             </View>
-
-            {/* All the colors to change the background are here! */}
-            <View style={styles.colorArray}>
-              <TouchableOpacity
-                style={styles.color1}
-                onPress={() => this.changeBgColor(this.colors.black)}
-              ></TouchableOpacity>
-              <TouchableOpacity
-                style={styles.color2}
-                onPress={() => this.changeBgColor(this.colors.purple)}
-              ></TouchableOpacity>
-              <TouchableOpacity
-                style={styles.color3}
-                onPress={() => this.changeBgColor(this.colors.grey)}
-              ></TouchableOpacity>
-              <TouchableOpacity
-                style={styles.color4}
-                onPress={() => this.changeBgColor(this.colors.green)}
-              ></TouchableOpacity>
-            </View>
-
-            {/*This will allow the user to click on a button and be redirected to the chat page */}
             <Pressable
-              style={styles.button}
+              style={styles.buttonBox}
               onPress={() =>
                 this.props.navigation.navigate("Chat", {
-                  name: this.state.name,
-                  bgColor: this.state.bgColor,
+                  username: this.state.username,
+                  backgroundColor: this.state.backgroundColor,
                 })
               }
             >
@@ -97,123 +103,133 @@ export default class Start extends React.Component {
   }
 }
 
-// Creating the app's stylesheet, fixing sizes, centering items, changing colors
+// Styling section start:
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
   backgroundImage: {
     flex: 1,
-    width: "100%",
-    alignItems: "center",
+    flexDirection: "column",
     justifyContent: "center",
-  },
-
-  titleBox: {
-    height: "40%",
-    width: "88%",
     alignItems: "center",
-    paddingTop: 100,
   },
-
+  titleBox: {
+    height: "44%",
+    width: "88%",
+  },
   title: {
     fontSize: 45,
     fontWeight: "600",
     color: "#FFFFFF",
+    textAlign: "center",
+    padding: 20,
   },
-
-  box1: {
-    backgroundColor: "#FFFFFF",
-    height: "46%",
-    width: "88%",
-    justifyContent: "space-around",
+  startBox: {
+    marginBottom: 30,
+    backgroundColor: "white",
+    flexGrow: 1,
+    flexShrink: 0,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     alignItems: "center",
-  },
-
-  inputBox: {
-    borderWidth: 2,
-    borderRadius: 1,
-    borderColor: "grey",
+    paddingTop: 15,
+    paddingBottom: 15,
+    borderRadius: 10,
+    height: 260,
+    minHeight: 260,
+    maxHeight: 300,
+    height: "44%",
     width: "88%",
-    height: 60,
-    paddingLeft: 20,
+  },
+  textBox: {
     flexDirection: "row",
-    alignItems: "center",
+    width: "88%",
+    borderColor: "#757083",
+    borderWidth: 1,
+    padding: 10,
   },
-
-  image: {
-    width: 20,
+  userIcon: {
+    padding: 10,
+    margin: 5,
     height: 20,
-    marginRight: 10,
+    width: 20,
+    resizeMode: "stretch",
+    alignItems: "center",
+    opacity: 0.5,
   },
-
   input: {
     fontSize: 16,
     fontWeight: "300",
     color: "#757083",
     opacity: 0.5,
   },
-
-  colorBox: {
+  themeBox: {
+    flexDirection: "column",
+    padding: 20,
     marginRight: "auto",
-    paddingLeft: 15,
     width: "88%",
   },
-
-  chooseColor: {
+  infoTextBox: {
     fontSize: 16,
     fontWeight: "300",
     color: "#757083",
-    opacity: 100,
+    opacity: 1,
+    padding: 5,
   },
-
-  colorArray: {
+  colorPalette: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "80%",
+    padding: 5,
   },
-
-  color1: {
+  colorSelection: {
+    alignSelf: "center",
+    borderRadius: 40,
+    borderWidth: 2,
+    borderColor: "white",
+  },
+  Circle1Box: {
+    flexDirection: "row",
     backgroundColor: "#090C08",
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    margin: 2,
   },
-
-  color2: {
+  Circle2Box: {
+    flexDirection: "row",
     backgroundColor: "#474056",
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    margin: 2,
   },
-
-  color3: {
+  Circle3Box: {
+    flexDirection: "row",
     backgroundColor: "#8A95A5",
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    margin: 2,
   },
-
-  color4: {
+  Circle4Box: {
+    flexDirection: "row",
     backgroundColor: "#B9C6AE",
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    margin: 2,
   },
-
-  button: {
-    width: "88%",
-    height: 70,
-    borderRadius: 8,
+  buttonBox: {
+    flexDirection: "column",
     backgroundColor: "#757083",
-    alignItems: "center",
-    justifyContent: "center",
+    width: "88%",
   },
-
   buttonText: {
-    color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
+    color: "#FFFFFF",
+    textAlign: "center",
+    padding: 20,
   },
 });
